@@ -1,4 +1,6 @@
 ﻿using Calculadora_de_Notas_POO.Utils;
+using Calculadora_de_Notas_POO.Models;
+using Calculadora_de_Notas_POO.Repositories;
 using System;
 
 namespace Calculadora_de_Notas_POO.Services
@@ -52,10 +54,11 @@ namespace Calculadora_de_Notas_POO.Services
                 switch (operacaoMaterias)
                 {
                     case 1:
-                        Console.WriteLine(ConsoleColors.Colorize("Cadastrar Matéria", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Consultar Matérias Cadastradas", ConsoleColors.Green));
+                        new MateriaServices().ListarMaterias();
                         break;
                     case 2:
-                        Console.WriteLine(ConsoleColors.Colorize("Consultar Matérias Cadastradas", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Cadastrar Matéria", ConsoleColors.Green));
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Matéria", ConsoleColors.Green));
@@ -134,8 +137,8 @@ namespace Calculadora_de_Notas_POO.Services
         {
             Console.WriteLine(ConsoleColors.Colorize("Menu de Matérias", ConsoleColors.Cyan));
             Console.WriteLine(new string('-', 60));
-            Console.WriteLine("1 - Cadastrar Matéria");
-            Console.WriteLine("2 - Consultar Matérias Cadastradas");
+            Console.WriteLine("1 - Consultar Matérias Cadastradas");
+            Console.WriteLine("2 - Cadastrar Matéria");
             Console.WriteLine("3 - Editar Matéria");
             Console.WriteLine("4 - Deletar Matéria");
             Console.WriteLine("5 - Voltar ao Menu Principal");
