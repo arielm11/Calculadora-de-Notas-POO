@@ -1,5 +1,6 @@
 ﻿using Calculadora_de_Notas_POO.Services;
 using Calculadora_de_Notas_POO.Utils;
+using Calculadora_de_Notas_POO.Repositories;
 using System;
 //using Microsoft.Data.SqlClient;
 
@@ -11,14 +12,6 @@ internal class Program
         menuService.runMenu();
 
         /*
-        // Códigos de cores para o terminal
-        const string RED = "\u001b[31m";
-        const string GREEN = "\u001b[32m";
-        const string YELLOW = "\u001b[33m";
-        const string BLUE = "\u001b[34m";
-        const string CYAN = "\u001b[36m";
-        const string RESET = "\u001b[0m";
-        const string BOLD = "\u001b[1m";
 
         // Teste de conexão ao banco de dados
         //SqlConnection? connection = ConnectToDatabase
