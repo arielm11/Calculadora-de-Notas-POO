@@ -12,8 +12,8 @@ Repositório destinado para a versão do projeto Calculadora-de-Notas mas com PO
 
 ### Métodos
 Aplicar um CRUD completo para a classe Matéria, com as seguintes operações:
+- ~~Consultar~~
 - Cadastrar
-- Consultar
 - Editar
 - Deletar
 
@@ -21,15 +21,15 @@ Aplicar um CRUD completo para a classe Matéria, com as seguintes operações:
 ### Propriedades
 - id | int
 - Id Matéria | int
-- Primeira Nota | float ou decimal (tenho que ver qual que se encaixa melhor)
-- Segunda Nota | float ou decimal (tenho que ver qual que se encaixa melhor)
-- Exame nal | float ou decimal (tenho que ver qual que se encaixa melhor)
-- Nota Final | float ou decimal (tenho que ver qual que se encaixa melhor)
+- Primeira Nota | decimal 
+- Segunda Nota | decimal 
+- Exame nal | decimal 
+- Nota Final | decimal 
 
 ### Métodos
 Aplicar um CRUD completo para a classe Nota, com as seguintes operações:
+- ~~Consultar~~
 - Cadastrar
-- Consultar
 - Editar
 - Deletar
 
