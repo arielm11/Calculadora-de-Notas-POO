@@ -88,10 +88,11 @@ namespace Calculadora_de_Notas_POO.Services
                 switch (operacaoNotas)
                 {
                     case 1:
-                        Console.WriteLine(ConsoleColors.Colorize("Cadastrar Notas", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Consultar Notas", ConsoleColors.Green));
+                        new NotaServices().ListarNotas();
                         break;
                     case 2:
-                        Console.WriteLine(ConsoleColors.Colorize("Consultar Notas", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Cadastrar Notas", ConsoleColors.Green));
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Notas", ConsoleColors.Green));
@@ -150,8 +151,8 @@ namespace Calculadora_de_Notas_POO.Services
         {
             Console.WriteLine(ConsoleColors.Colorize("Menu de Notas", ConsoleColors.Cyan));
             Console.WriteLine(new string('-', 60));
-            Console.WriteLine("1 - Cadastrar Notas");
-            Console.WriteLine("2 - Consultar Notas");
+            Console.WriteLine("1 - Consultar Notas");
+            Console.WriteLine("2 - Cadastrar Notas");
             Console.WriteLine("3 - Editar Notas");
             Console.WriteLine("4 - Saber quanto precisa tirar no 2° Bimestre");
             Console.WriteLine("5 - Saber quanto precisa tirar no Exame Final");
