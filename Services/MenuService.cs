@@ -59,6 +59,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 2:
                         Console.WriteLine(ConsoleColors.Colorize("Cadastrar Matéria", ConsoleColors.Green));
+                        new MateriaServices().CadastrarMateria();
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Matéria", ConsoleColors.Green));

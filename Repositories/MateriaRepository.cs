@@ -42,5 +42,38 @@ namespace Calculadora_de_Notas_POO.Repositories
             }
             return materias;
         }
+
+        // Método para cadastrar uma nova matéria no banco de dados
+        public void CadastrarMateria(Materias materia)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "INSERT INTO Materias (NOM_MATERIA, NOM_PROFESSOR, PERIODO) VALUES (@Nome, @Professor, @Periodo)";
+
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Nome", materia.Nome);
+                    cmd.Parameters.AddWithValue("@Professor", materia.Professor);
+                    cmd.Parameters.AddWithValue("@Periodo", materia.Periodo);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine(ConsoleColors.Colorize("Matéria cadastrada com sucesso!", ConsoleColors.Green));
+                        }
+                        else
+                        {
+                            Console.WriteLine(ConsoleColors.Colorize("Falha ao cadastrar a matéria.", ConsoleColors.Red));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ConsoleColors.Colorize($"Erro ao cadastrar matéria: {ex.Message}", ConsoleColors.Red));
+                    }
+                }
+            }
+        }
     }
 }
