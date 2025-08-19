@@ -13,7 +13,7 @@ Repositório destinado para a versão do projeto Calculadora-de-Notas mas com PO
 ### Métodos
 Aplicar um CRUD completo para a classe Matéria, com as seguintes operações:
 - ~~Consultar~~
-- Cadastrar
+- ~~Cadastrar~~
 - Editar
 - Deletar
 
@@ -29,7 +29,7 @@ Aplicar um CRUD completo para a classe Matéria, com as seguintes operações:
 ### Métodos
 Aplicar um CRUD completo para a classe Nota, com as seguintes operações:
 - ~~Consultar~~
-- Cadastrar
+- ~~Cadastrar~~
 - Editar
 - Deletar
 
