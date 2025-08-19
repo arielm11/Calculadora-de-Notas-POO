@@ -13,7 +13,7 @@ namespace Calculadora_de_Notas_POO.Models
         public int IdMateria { get; set; } 
         public decimal PrimeiraNota { get; set; } 
         public decimal SegundaNota { get; set; } 
-        public decimal ExameFinal { get; set; } 
+        public decimal? ExameFinal { get; set; } 
         public decimal NotaFinal { get; set; }
     }
 }
