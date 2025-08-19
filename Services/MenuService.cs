@@ -2,11 +2,22 @@
 using Calculadora_de_Notas_POO.Models;
 using Calculadora_de_Notas_POO.Repositories;
 using System;
+using Microsoft.Identity.Client;
 
 namespace Calculadora_de_Notas_POO.Services
 {
     public class MenuService
     {
+        private readonly MateriaServices _materiaServices;
+        private readonly NotaServices _notaServices;
+
+        public MenuService()
+        {
+            _materiaServices = new MateriaServices();
+            _notaServices = new NotaServices();
+        }
+
+
         // Método para rodar o menu principal
         public void runMenu()
         {
@@ -151,7 +162,7 @@ namespace Calculadora_de_Notas_POO.Services
         static void printMenuNotas()
         {
             Console.WriteLine(ConsoleColors.Colorize("Menu de Notas", ConsoleColors.Cyan));
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(ConsoleColors.Colorize("\n" + new string('=', 60), ConsoleColors.Blue));
             Console.WriteLine("1 - Consultar Notas");
             Console.WriteLine("2 - Cadastrar Notas");
             Console.WriteLine("3 - Editar Notas");
