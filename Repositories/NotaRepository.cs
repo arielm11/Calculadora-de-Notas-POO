@@ -47,5 +47,42 @@ namespace Calculadora_de_Notas_POO.Repositories
             }
             return notas;
         }
+
+        // Método para cadastrar uma nova nota no banco de dados
+        public bool CadastrarNota(Notas nota)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query;
+                if (nota.ExameFinal.HasValue)
+                {
+                    query = "INSERT INTO Notas (COD_MATERIA, PRIMEIRA_NOTA, SEGUNDA_NOTA, EXAME_FINAL, NOTA_FINAL) VALUES (@IdMateria, @PrimeiraNota, @SegundaNota, @ExameFinal, @NotaFinal)";
+                }
+                else
+                {
+                    query = "INSERT INTO Notas (COD_MATERIA, PRIMEIRA_NOTA, SEGUNDA_NOTA, NOTA_FINAL) VALUES (@IdMateria, @PrimeiraNota, @SegundaNota, @NotaFinal)";
+                }
+
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@IdMateria", nota.IdMateria);
+                    cmd.Parameters.AddWithValue("@PrimeiraNota", nota.PrimeiraNota);
+                    cmd.Parameters.AddWithValue("@SegundaNota", nota.SegundaNota);
+                    cmd.Parameters.AddWithValue("@ExameFinal", nota.ExameFinal);
+                    cmd.Parameters.AddWithValue("@NotaFinal", nota.NotaFinal);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
