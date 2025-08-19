@@ -18,20 +18,37 @@ namespace Calculadora_de_Notas_POO.Services
         }
 
         // Método para listar todas as notas cadastradas
-        public void ListarNotas()
-        { 
-            var notas = _repository.ListarNotas();
+        public List<Notas> ListarNotas() {
+            return _repository.ListarNotas();
+        }
 
-            if (notas == null || notas.Count == 0)
-            { 
-                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada.", ConsoleColors.Red));
-                return;
+        // Método para cadastrar uma nova nota
+        public bool CadastrarNotas(int idMateria, decimal primeiraNota, decimal segundaNota, decimal? exameFinal = null)
+        {
+            decimal mediaBimestral = CalcularMedia(primeiraNota, segundaNota);
+            decimal notaFinal = mediaBimestral;
+
+            if (mediaBimestral < 70 && exameFinal.HasValue)
+            {
+                notaFinal = CalcularMedia(exameFinal.Value, mediaBimestral);
             }
-            Console.WriteLine(ConsoleColors.Colorize("Notas Cadastradas:", ConsoleColors.Green));
-            foreach (var nota in notas)
-            { 
-                Console.WriteLine($"ID: {nota.Id}, ID Matéria: {nota.IdMateria}, Primeira Nota: {nota.PrimeiraNota}, Segunda Nota: {nota.SegundaNota}, Exame Final: {nota.ExameFinal}, Nota Final: {nota.NotaFinal}");
-            }
+
+            var novaNota = new Notas
+            {
+                IdMateria = idMateria,
+                PrimeiraNota = primeiraNota,
+                SegundaNota = segundaNota,
+                ExameFinal = exameFinal, 
+                NotaFinal = notaFinal
+            };
+
+                return _repository.CadastrarNota(novaNota);
+        }
+
+        // Método para calcular a média da primeira nota e com a segunda nota
+        public decimal CalcularMedia(decimal nota1, decimal nota2)
+        {
+            return (nota1 * 2 + nota2 * 3) / 5;
         }
     }
 }
