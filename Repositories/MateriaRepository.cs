@@ -44,7 +44,7 @@ namespace Calculadora_de_Notas_POO.Repositories
         }
 
         // Método para cadastrar uma nova matéria no banco de dados
-        public void CadastrarMateria(Materias materia)
+        public bool CadastrarMateria(Materias materia)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -59,18 +59,11 @@ namespace Calculadora_de_Notas_POO.Repositories
                     try
                     {
                         int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            Console.WriteLine(ConsoleColors.Colorize("Matéria cadastrada com sucesso!", ConsoleColors.Green));
-                        }
-                        else
-                        {
-                            Console.WriteLine(ConsoleColors.Colorize("Falha ao cadastrar a matéria.", ConsoleColors.Red));
-                        }
+                        return rowsAffected > 0;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        Console.WriteLine(ConsoleColors.Colorize($"Erro ao cadastrar matéria: {ex.Message}", ConsoleColors.Red));
+                        return false;
                     }
                 }
             }
