@@ -15,10 +15,10 @@ namespace Calculadora_de_Notas_POO.Repositories
 
         // Método para listas as notas cadastradas no banco de dados
         public List<Notas> ListarNotas()
-        { 
+        {
             var notas = new List<Notas>();
             using (var connection = new SqlConnection(connectionString))
-            { 
+            {
                 connection.Open();
                 string query = "SELECT N.COD_NOTA, N.COD_MATERIA, M.NOM_MATERIA, N.PRIMEIRA_NOTA, N.SEGUNDA_NOTA, N.EXAME_FINAL, N.NOTA_FINAL FROM Notas N JOIN Materias M ON N.COD_MATERIA = M.COD_MATERIA;\r\n";
                 using (var cmd = new SqlCommand(query, connection))
