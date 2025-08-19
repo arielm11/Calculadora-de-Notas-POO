@@ -173,6 +173,29 @@ namespace Calculadora_de_Notas_POO.Services
             Console.WriteLine(ConsoleColors.Colorize("\n" + new string('=', 60), ConsoleColors.Blue));
         }
 
+        //Método para mostrar o menu de consulta de matérias
+        public void ConsultarMateriaMenu()
+        {
+            List<Materias> materias = _materiaServices.ListarMaterias();
+
+            if (materias == null || materias.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma matéria cadastrada. Por favor, cadastre uma matéria primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas:", ConsoleColors.Green));
+                foreach (var materia in materias)
+                {
+                    Console.WriteLine($"ID: {materia.Id}, Matéria: {materia.Nome}, Professor: {materia.Professor}, Periodo: {materia.Periodo}");
+                }
+            }
+
+        }
+
         // Método para mostrar o menu de consulta de notas
         public void ConsultarNotaMenu()
         {
