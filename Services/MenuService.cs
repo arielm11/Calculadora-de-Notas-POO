@@ -66,11 +66,11 @@ namespace Calculadora_de_Notas_POO.Services
                 {
                     case 1:
                         Console.WriteLine(ConsoleColors.Colorize("Consultar Matérias Cadastradas", ConsoleColors.Green));
-                        new MateriaServices().ListarMaterias();
+                        ConsultarMateriaMenu();
                         break;
                     case 2:
                         Console.WriteLine(ConsoleColors.Colorize("Cadastrar Matéria", ConsoleColors.Green));
-                        new MateriaServices().CadastrarMateria();
+                        CadastrarMateriaMenu();
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Matéria", ConsoleColors.Green));
@@ -101,10 +101,11 @@ namespace Calculadora_de_Notas_POO.Services
                 {
                     case 1:
                         Console.WriteLine(ConsoleColors.Colorize("Consultar Notas", ConsoleColors.Green));
-                        new NotaServices().ListarNotas();
+                        ConsultarNotaMenu();
                         break;
                     case 2:
                         Console.WriteLine(ConsoleColors.Colorize("Cadastrar Notas", ConsoleColors.Green));
+                        CadastrarNotaMenu();
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Notas", ConsoleColors.Green));
@@ -123,7 +124,6 @@ namespace Calculadora_de_Notas_POO.Services
                 }
             }
         }
-       
 
         // Método para imprimir o Cabeçalho
         static void printHeader()
@@ -170,7 +170,160 @@ namespace Calculadora_de_Notas_POO.Services
             Console.WriteLine("5 - Saber quanto precisa tirar no Exame Final");
             Console.WriteLine("6 - Ver se foi aprovado");
             Console.WriteLine("7 - Voltar ao Menu Principal");
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(ConsoleColors.Colorize("\n" + new string('=', 60), ConsoleColors.Blue));
+        }
+
+        // Método para mostrar o menu de consulta de notas
+        public void ConsultarNotaMenu()
+        {
+            List<Notas> notas = _notaServices.ListarNotas();
+
+            if (notas == null || notas.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas:", ConsoleColors.Green));
+                foreach (var nota in notas)
+                {
+                    Console.WriteLine($"ID: {nota.Id}, ID Matéria: {nota.IdMateria}, Primeira Nota: {nota.PrimeiraNota}, Segunda Nota: {nota.SegundaNota}, Nota Final: {nota.NotaFinal}");
+                }
+            }
+        }
+
+        // Método para cadastrar uma nova matéria
+        public void CadastrarMateriaMenu()
+        {
+            string nomeMateria = ReadString("Digite o nome da matéria: ", "Nome da matéria não pode ser vazio.");
+            string nomeProfessor = ReadString("Digite o nome do professor: ", "Nome do professor não pode ser vazio.");
+            int periodo = ReadInt("Digite o período (número inteiro): ", "Período inválido. Deve ser um número inteiro positivo.");
+
+            bool sucesso = _materiaServices.CadastrarMateria(nomeMateria, nomeProfessor, periodo);
+
+            if(sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Matéria cadastrada com sucesso!", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Erro ao cadastrar matéria. Tente novamente", ConsoleColors.Red));
+            }
+
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método para cadastrar uma nova nota
+        public void CadastrarNotaMenu()
+        {
+            var materiasDisponiveis = _materiaServices.ListarMaterias();
+
+            if (materiasDisponiveis == null || materiasDisponiveis.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma matéria cadastrada. Por favor, cadastre uma matéria primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            foreach (var materia in materiasDisponiveis)
+            {
+                Console.WriteLine($"ID: {materia.Id} | Nome: {materia.Nome} | Periodo: {materia.Periodo}");
+            }
+
+            int idMateria = ReadInt("Digite o ID da matéria para lançar a nota: ", "ID inválido");
+
+            if (!materiasDisponiveis.Any(m => m.Id == idMateria))
+            {
+                Console.WriteLine(ConsoleColors.Colorize("ID de matéria não encontrado. Tente novamente.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            decimal primeiraNota = ReadDecimal("Digite a primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal segundaNota = ReadDecimal("Digite a segunda nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+
+            decimal media = _notaServices.CalcularMedia(primeiraNota, segundaNota);
+            decimal? exameFinal = null;
+
+            if (media < 70)
+            {
+                Console.WriteLine(ConsoleColors.Colorize($"\nMédia do bimestre ({media:F2}) é menor que 70. É necessário cadastrar a nota do exame final.", ConsoleColors.Yellow));
+                exameFinal = ReadDecimal("Digite a nota do Exame Final: ", "Nota inválida! A nota do exame deve estar entre 0 e 100.", 0, 100);
+            }
+
+            bool sucesso = _notaServices.CadastrarNotas(idMateria, primeiraNota, segundaNota, exameFinal);
+
+            if(sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas com sucesso!", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Ocorreu um erro ao cadastrar as notas. Tente novamente.", ConsoleColors.Red));
+            }
+
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método auxiliar para ler uma string e validar senão é vazia
+        private string ReadString(string prompt, string errorMassage)
+        {
+            while (true)
+            {
+                Console.Write(ConsoleColors.Colorize(prompt, ConsoleColors.Yellow));
+                string? input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine(ConsoleColors.Colorize(errorMassage, ConsoleColors.Red));
+                }
+                else
+                {
+                    return input;
+                }
+            }
+        }
+
+        // Método auxiliar para ler um inteiro e validar se é valido
+        private int ReadInt(string prompt, string errorMessage)
+        {
+            while (true)
+            {
+                Console.Write(ConsoleColors.Colorize(prompt, ConsoleColors.Yellow));
+                string? input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int result) || result <= 0)
+                {
+                    Console.WriteLine(ConsoleColors.Colorize(errorMessage, ConsoleColors.Red));
+                }
+                else
+                {
+                    return result;
+                }
+            }
+        }
+
+        // Método auxiliar para ler um decimal e validar se é valido
+        private decimal ReadDecimal(string prompt, string errorMessage, decimal min, decimal max)
+        {
+            while (true)
+            {
+                Console.Write(ConsoleColors.Colorize(prompt, ConsoleColors.Yellow));
+                string? input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input) || !decimal.TryParse(input, out decimal result) || result < min || result > max)
+                {
+                    Console.WriteLine(ConsoleColors.Colorize(errorMessage, ConsoleColors.Red));
+                }
+                else
+                {
+                    return result;
+                }
+            }
         }
     }
+
 }
