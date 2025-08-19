@@ -203,7 +203,7 @@ namespace Calculadora_de_Notas_POO.Services
 
             if (notas == null || notas.Count == 0)
             {
-                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
                 Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
                 Console.ReadKey();
                 return;
@@ -227,7 +227,7 @@ namespace Calculadora_de_Notas_POO.Services
 
             bool sucesso = _materiaServices.CadastrarMateria(nomeMateria, nomeProfessor, periodo);
 
-            if(sucesso)
+            if (sucesso)
             {
                 Console.WriteLine(ConsoleColors.Colorize("Matéria cadastrada com sucesso!", ConsoleColors.Green));
             }
@@ -281,7 +281,7 @@ namespace Calculadora_de_Notas_POO.Services
 
             bool sucesso = _notaServices.CadastrarNotas(idMateria, primeiraNota, segundaNota, exameFinal);
 
-            if(sucesso)
+            if (sucesso)
             {
                 Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas com sucesso!", ConsoleColors.Green));
             }
