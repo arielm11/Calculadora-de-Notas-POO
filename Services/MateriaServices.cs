@@ -58,5 +58,20 @@ namespace Calculadora_de_Notas_POO.Services
                 return _repository.EditarMateria(materiaAtualizada);
             }
         }
+
+        // Método para excluir uma matéria existente
+        public bool ExcluirMateria(int id)
+        {
+            var materiaExistente = _repository.ListarMaterias().FirstOrDefault(m => m.Id == id);
+            if (materiaExistente == null)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Matéria não encontrada.", ConsoleColors.Red));
+                return false;
+            }
+            else
+            {
+                return _repository.DeletarMateria(id);
+            }
+        }
     }
 }

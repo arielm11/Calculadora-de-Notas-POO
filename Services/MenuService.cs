@@ -78,6 +78,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 4:
                         Console.WriteLine(ConsoleColors.Colorize("Deletar Matéria", ConsoleColors.Green));
+                        DeletarMateriaMenu();
                         break;
                     case 5:
                         return; // Voltar ao Menu Principal
@@ -392,6 +393,42 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.WriteLine(ConsoleColors.Colorize("Ocorreu um erro ao editar as notas. Tente novamente.", ConsoleColors.Red));
             }
 
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método para deletar uma matéria cadastrada
+        public void DeletarMateriaMenu()
+        {
+            var materiasDisponiveis = _materiaServices.ListarMaterias();
+            if (materiasDisponiveis == null || materiasDisponiveis.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma matéria cadastrada. Por favor, cadastre uma matéria primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            foreach (var materia in materiasDisponiveis)
+            {
+                Console.WriteLine($"ID: {materia.Id} | Nome: {materia.Nome} | Professor: {materia.Professor} | Periodo: {materia.Periodo}");
+            }
+            int idMateria = ReadInt("Digite o ID da matéria que deseja deletar: ", "ID inválido");
+            if (!materiasDisponiveis.Any(m => m.Id == idMateria))
+            {
+                Console.WriteLine(ConsoleColors.Colorize("ID de matéria não encontrado. Tente novamente.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            bool sucesso = _materiaServices.ExcluirMateria(idMateria);
+            if (sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Matéria deletada com sucesso!", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar matéria. Tente novamente", ConsoleColors.Red));
+            }
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }

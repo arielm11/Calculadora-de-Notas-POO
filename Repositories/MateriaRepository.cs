@@ -94,5 +94,28 @@ namespace Calculadora_de_Notas_POO.Repositories
                 }
             }
         }
+
+        // Método para deletar uma matéria existente no banco de dados
+        public bool DeletarMateria(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Materias WHERE COD_MATERIA = @Id";
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
