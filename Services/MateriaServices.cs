@@ -34,5 +34,29 @@ namespace Calculadora_de_Notas_POO.Services
             };
             return _repository.CadastrarMateria(novaMateria);
         }
+
+        // Método para editar uma matéria existente
+        public bool EditarMateria(int id, string nomeMateria, string nomeProfessor, int periodo)
+        {
+            var materiaExistente = _repository.ListarMaterias().FirstOrDefault(m => m.Id == id);
+
+            if (materiaExistente == null)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Matéria não encontrada.", ConsoleColors.Red));
+                return false;
+            }
+            else 
+            { 
+                var materiaAtualizada = new Materias
+                {
+                    Id = id,
+                    Nome = nomeMateria,
+                    Professor = nomeProfessor,
+                    Periodo = periodo
+                };
+
+                return _repository.EditarMateria(materiaAtualizada);
+            }
+        }
     }
 }

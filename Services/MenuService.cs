@@ -74,6 +74,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Matéria", ConsoleColors.Green));
+                        EditarMateriaMenu();
                         break;
                     case 4:
                         Console.WriteLine(ConsoleColors.Colorize("Deletar Matéria", ConsoleColors.Green));
@@ -290,6 +291,53 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.WriteLine(ConsoleColors.Colorize("Ocorreu um erro ao cadastrar as notas. Tente novamente.", ConsoleColors.Red));
             }
 
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método para editar uma matéria cadastrada
+        public void EditarMateriaMenu()
+        {
+            var materiasDisponiveis = _materiaServices.ListarMaterias();
+
+            if (materiasDisponiveis == null || materiasDisponiveis.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma matéria cadastrada. Por favor, cadastre uma matéria primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            foreach (var materia in materiasDisponiveis)
+            {
+                Console.WriteLine($"ID: {materia.Id} | Nome: {materia.Nome} | Professor: {materia.Professor} | Periodo: {materia.Periodo}");
+            }
+
+            int idMateria = ReadInt("Digite o ID da matéria que deseja editar: ", "ID inválido");
+
+            if (!materiasDisponiveis.Any(m => m.Id == idMateria))
+            {
+                Console.WriteLine(ConsoleColors.Colorize("ID de matéria não encontrado. Tente novamente.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            string novoNomeMateria = ReadString("Digite o novo nome da matéria: ", "Nome da matéria não pode ser vazio.");
+            string novoNomeProfessor = ReadString("Digite o novo nome do professor: ", "Nome do professor não pode ser vazio.");
+            int novoPeriodo = ReadInt("Digite o novo período (número inteiro): ", "Período inválido. Deve ser um número inteiro positivo.");
+
+            bool sucesso = _materiaServices.EditarMateria(idMateria, novoNomeMateria, novoNomeProfessor, novoPeriodo);
+
+            if (sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Matéria editada com sucesso!", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Erro ao editar matéria. Tente novamente", ConsoleColors.Red));
+            }
+            
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }

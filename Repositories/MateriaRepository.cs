@@ -68,5 +68,31 @@ namespace Calculadora_de_Notas_POO.Repositories
                 }
             }
         }
+
+        // Método para editar uma matéria existente no banco de dados
+        public bool EditarMateria(Materias materia)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE Materias SET NOM_MATERIA = @Nome, NOM_PROFESSOR = @Professor, PERIODO = @Periodo WHERE COD_MATERIA = @Id";
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", materia.Id);
+                    cmd.Parameters.AddWithValue("@Nome", materia.Nome);
+                    cmd.Parameters.AddWithValue("@Professor", materia.Professor);
+                    cmd.Parameters.AddWithValue("@Periodo", materia.Periodo);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
