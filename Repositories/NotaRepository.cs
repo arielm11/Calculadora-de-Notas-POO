@@ -84,5 +84,41 @@ namespace Calculadora_de_Notas_POO.Repositories
                 }
             }
         }
+
+        // Método para editar uma nota existente no banco de dados
+        public bool EditarNota(Notas nota)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query;
+                if (nota.ExameFinal.HasValue)
+                {
+                    query = "UPDATE Notas SET COD_MATERIA = @IdMateria, PRIMEIRA_NOTA = @PrimeiraNota, SEGUNDA_NOTA = @SegundaNota, EXAME_FINAL = @ExameFinal, NOTA_FINAL = @NotaFinal WHERE COD_NOTA = @Id";
+                }
+                else
+                {
+                    query = "UPDATE Notas SET COD_MATERIA = @IdMateria, PRIMEIRA_NOTA = @PrimeiraNota, SEGUNDA_NOTA = @SegundaNota, NOTA_FINAL = @NotaFinal WHERE COD_NOTA = @Id";
+                }
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", nota.Id);
+                    cmd.Parameters.AddWithValue("@IdMateria", nota.IdMateria);
+                    cmd.Parameters.AddWithValue("@PrimeiraNota", nota.PrimeiraNota);
+                    cmd.Parameters.AddWithValue("@SegundaNota", nota.SegundaNota);
+                    cmd.Parameters.AddWithValue("@ExameFinal", nota.ExameFinal);
+                    cmd.Parameters.AddWithValue("@NotaFinal", nota.NotaFinal);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

@@ -110,6 +110,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 3:
                         Console.WriteLine(ConsoleColors.Colorize("Editar Notas", ConsoleColors.Green));
+                        EditarNotaMenu();
                         break;
                     case 4:
                         Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o 2° Bimestre", ConsoleColors.Green));
@@ -338,6 +339,59 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao editar matéria. Tente novamente", ConsoleColors.Red));
             }
             
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método para editar notas cadastradas
+        public void EditarNotaMenu()
+        {
+            var notasDisponiveis = _notaServices.ListarNotas();
+
+            if (notasDisponiveis == null || notasDisponiveis.Count == 0)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+            foreach (var nota in notasDisponiveis)
+            {
+                Console.WriteLine($"ID: {nota.Id} | ID Matéria: {nota.IdMateria} | Primeira Nota: {nota.PrimeiraNota} | Segunda Nota: {nota.SegundaNota} | Nota Final: {nota.NotaFinal}");
+
+            }
+
+            int idNota = ReadInt("Digite o ID da nota que deseja editar: ", "ID inválido");
+
+            if (!notasDisponiveis.Any(n => n.Id == idNota))
+            {
+                Console.WriteLine(ConsoleColors.Colorize("ID de nota não encontrado. Tente novamente.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            decimal novaPrimeiraNota = ReadDecimal("Digite a nova primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal novaSegundaNota = ReadDecimal("Digite a nova segunda nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal novaMedia = _notaServices.CalcularMedia(novaPrimeiraNota, novaSegundaNota);
+            decimal? novoExameFinal = null;
+            
+            if (novaMedia < 70)
+            {
+                Console.WriteLine(ConsoleColors.Colorize($"\nMédia do bimestre ({novaMedia:F2}) é menor que 70. É necessário cadastrar a nota do exame final.", ConsoleColors.Yellow));
+                novoExameFinal = ReadDecimal("Digite a nova nota do Exame Final: ", "Nota inválida! A nota do exame deve estar entre 0 e 100.", 0, 100);
+            }
+
+            bool sucesso = _notaServices.EditarNotas(idNota, novaPrimeiraNota, novaSegundaNota, novoExameFinal);
+            if (sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Notas editadas com sucesso!", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Ocorreu um erro ao editar as notas. Tente novamente.", ConsoleColors.Red));
+            }
+
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }

@@ -50,5 +50,35 @@ namespace Calculadora_de_Notas_POO.Services
         {
             return (nota1 * 2 + nota2 * 3) / 5;
         }
+
+        // Método para editar uma nota existente
+        public bool EditarNotas(int id, decimal primeiraNota, decimal segundaNota, decimal? exameFinal = null)
+        {
+            var notaExistente = _repository.ListarNotas().FirstOrDefault(n => n.Id == id);
+            if (notaExistente == null)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nota não encontrada.", ConsoleColors.Red));
+                return false;
+            }
+            else 
+            { 
+                decimal mediaBimestral = CalcularMedia(primeiraNota, segundaNota);
+                decimal notaFinal = mediaBimestral;
+                if (mediaBimestral < 70 && exameFinal.HasValue)
+                {
+                    notaFinal = CalcularMedia(exameFinal.Value, mediaBimestral);
+                }
+                var notaAtualizada = new Notas
+                {
+                    Id = id,
+                    IdMateria = notaExistente.IdMateria,
+                    PrimeiraNota = primeiraNota,
+                    SegundaNota = segundaNota,
+                    ExameFinal = exameFinal,
+                    NotaFinal = notaFinal
+                };
+                return _repository.EditarNota(notaAtualizada);
+            }
+        }
     }
 }
