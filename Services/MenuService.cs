@@ -188,7 +188,7 @@ namespace Calculadora_de_Notas_POO.Services
             }
             else
             {
-                Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas:", ConsoleColors.Green));
+                Console.WriteLine(ConsoleColors.Colorize("Matérias cadastradas:", ConsoleColors.Green));
                 foreach (var materia in materias)
                 {
                     Console.WriteLine($"ID: {materia.Id}, Matéria: {materia.Nome}, Professor: {materia.Professor}, Periodo: {materia.Periodo}");
