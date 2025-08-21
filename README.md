@@ -15,7 +15,7 @@ Aplicar um CRUD completo para a classe Matéria, com as seguintes operações:
 - ~~Consultar~~
 - ~~Cadastrar~~
 - ~~Editar~~
-- Deletar
+- ~~Deletar~~
 
 ## Nota
 ### Propriedades
@@ -31,7 +31,7 @@ Aplicar um CRUD completo para a classe Nota, com as seguintes operações:
 - ~~Consultar~~
 - ~~Cadastrar~~
 - ~~Editar~~
-- Deletar
+- ~~Deletar~~
 
 ## Calculadora de Notas
 Será uma classe utilitária que irá conter os métodos necessários para calcular as notas.
