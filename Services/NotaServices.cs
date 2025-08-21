@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace Calculadora_de_Notas_POO.Services
 {
+
     public class NotaServices
     {
+        private const decimal mediaParaAprovacao = 70;
+        private const decimal pesoPrimeiraNota = 2;
+        private const decimal pesoSegundaNota = 3;
+        private const decimal pesoExameFinal = 5;
+
         private readonly NotaRepository _repository;
         public NotaServices()
         {
@@ -43,12 +49,6 @@ namespace Calculadora_de_Notas_POO.Services
             };
 
                 return _repository.CadastrarNota(novaNota);
-        }
-
-        // Método para calcular a média da primeira nota e com a segunda nota
-        public decimal CalcularMedia(decimal nota1, decimal nota2)
-        {
-            return (nota1 * 2 + nota2 * 3) / 5;
         }
 
         // Método para editar uma nota existente
