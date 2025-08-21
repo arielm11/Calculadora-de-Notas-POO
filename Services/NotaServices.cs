@@ -95,5 +95,22 @@ namespace Calculadora_de_Notas_POO.Services
                 return _repository.DeletarNota(id);
             }
         }
+        
+        // Método para calcular a média da primeira nota e com a segunda nota
+        public decimal CalcularMedia(decimal nota1, decimal nota2)
+        {
+            return (nota1 * pesoPrimeiraNota + nota2 * pesoSegundaNota) / pesoExameFinal;
+        }
+
+        // Método para calcular quanto o aluno precisa tirar no 2° bimestre para passar na matéria
+        public decimal CalcularNota2Bimestre(decimal nota1)
+        {
+            decimal media = mediaParaAprovacao * pesoExameFinal;
+            decimal influenciaNota1 = nota1 * pesoPrimeiraNota;
+
+            decimal nota2Necessaria = (media - influenciaNota1) / pesoSegundaNota;
+
+            return nota2Necessaria;
+        }
     }
 }

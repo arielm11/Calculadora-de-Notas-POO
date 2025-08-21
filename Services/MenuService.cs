@@ -119,6 +119,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 5:
                         Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o 2° Bimestre", ConsoleColors.Green));
+                        CalcularNotaParaSegundoBimestre();
                         break;
                     case 6:
                         Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o Exame Final", ConsoleColors.Green));
@@ -482,6 +483,23 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar nota. Tente novamente", ConsoleColors.Red));
             }
 
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Metodo para calcular quanto o aluno precisa tirar no 2° bimestre para passar na matéria
+        public void CalcularNotaParaSegundoBimestre()
+        {
+            decimal primeiraNota = ReadDecimal("Digite a primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal notaNecessaria = _notaServices.CalcularNota2Bimestre(primeiraNota);
+            if (notaNecessaria < 0 || notaNecessaria > 100)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Não é possível passar na matéria com a primeira nota informada.", ConsoleColors.Red));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize($"Você precisa tirar pelo menos {notaNecessaria:F2} no segundo bimestre para passar na matéria.", ConsoleColors.Green));
+            }
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }
