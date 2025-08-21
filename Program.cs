@@ -1,10 +1,17 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Calculadora_de_Notas_POO.Services;
+using Calculadora_de_Notas_POO.Utils;
+using Calculadora_de_Notas_POO.Repositories;
+using System;
+//using Microsoft.Data.SqlClient;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        var menuService = new MenuService();
+        menuService.runMenu();
 
+        /*
         // Códigos de cores para o terminal
         const string RED = "\u001b[31m";
         const string GREEN = "\u001b[32m";
@@ -15,91 +22,7 @@ internal class Program
         const string BOLD = "\u001b[1m";
 
         // Teste de conexão ao banco de dados
-        //SqlConnection? connection = ConnectToDatabase();
-
-        RunProgram();
-
-        // Função para rodar o programa até o usuário decidir sair
-        static void RunProgram()
-        {
-            while (true)
-            {
-                PrintHeader();
-                printMenu();
-
-                Console.Write("\n" + YELLOW + "Digite o número da operação: " + RESET);
-                string? input = Console.ReadLine();
-
-                if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int operacao) || operacao < 1 || operacao > 11)
-                {
-                    Console.WriteLine(YELLOW + "Entrada inválida. Por favor, insira um número entre 1 e 10.\n" + RESET);
-                    continue;
-                }
-                switch (operacao)
-                {
-                    case 1:
-                        CadastrarMateria();
-                        break;
-                    case 2:
-                        ConsultarMaterias();
-                        break;
-                    case 3:
-                        EditarMateria();
-                        break;
-                    case 4:
-                        DeletarMateria();
-                        break;
-                    case 5:
-                        CadastrarNotas();
-                        break;
-                    case 6:
-                        ConsultarNotas();
-                        break;
-                    case 7:
-                        EditarNotas();
-                        break;
-                    case 8:
-                        SaberNotaB2();
-                        break;
-                    case 9:
-                        ExameFinal();
-                        break;
-                    case 10:
-                        Media();
-                        break;
-                    case 11:
-                        Console.WriteLine("Saindo do Programa");
-                        return;
-                }
-            }
-        }
-
-        // Função para imprimir o cabeçalho
-        static void PrintHeader()
-        {
-            Console.WriteLine(BLUE + new string('=', 60) + RESET);
-            Console.WriteLine(BOLD + "SISTEMA DE CLASSIFICAÇÃO DE ALUNOS".PadLeft(30 + "SISTEMA DE CLASSIFICAÇÃO DE ALUNOS".Length / 2).PadRight(60) + RESET);
-            Console.WriteLine(BLUE + new string('=', 60) + RESET);
-        }
-
-        // Função para imprimir o menu
-        static void printMenu()
-        {
-            Console.WriteLine("\n" + CYAN + "Menu Principal".PadLeft(30 + "Menu Principal".Length / 2).PadRight(60) + RESET);
-            Console.WriteLine(new string('-', 60));
-            Console.WriteLine("1 - Cadastrar Matéria");
-            Console.WriteLine("2 - Consultar Matérias Cadastradas");
-            Console.WriteLine("3 - Editar Matéria");
-            Console.WriteLine("4 - Deletar Matéria");
-            Console.WriteLine("5 - Cadastrar Notas");
-            Console.WriteLine("6 - Consultar Notas");
-            Console.WriteLine("7 - Editar Notas");
-            Console.WriteLine("8 - Saber quanto precisa tirar no 2° Bimestre");
-            Console.WriteLine("9 - Saber quanto precisa tirar no Exame Final");
-            Console.WriteLine("10 - Ver se foi aprovado");
-            Console.WriteLine("11 - Sair");
-            Console.WriteLine(new string('-', 60));
-        }
+        //SqlConnection? connection = ConnectToDatabase
 
         //Função para testar conexão ao banco de dados
         static SqlConnection? ConnectToDatabase()
@@ -742,6 +665,6 @@ internal class Program
                 Console.WriteLine(RED + "Erro ao calcular a média: " + ex.Message + "\n" + RESET);
                 return 0;
             }
-        }
+        }*/
     }
 }
