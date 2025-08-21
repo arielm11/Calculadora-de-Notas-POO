@@ -119,14 +119,15 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 5:
                         Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o 2° Bimestre", ConsoleColors.Green));
-                        CalcularNotaParaSegundoBimestre();
+                        CalcularNotaParaSegundoBimestreMenu();
                         break;
                     case 6:
                         Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o Exame Final", ConsoleColors.Green));
-                        CalcularExameFinal();
+                        CalcularExameFinalMenu();
                         break;
                     case 7:
                         Console.WriteLine(ConsoleColors.Colorize("Verificar Aprovação", ConsoleColors.Green));
+                        CalcularMedia();
                         break;
                     case 8:
                         return; // Voltar ao Menu Principal
@@ -489,7 +490,7 @@ namespace Calculadora_de_Notas_POO.Services
         }
 
         // Metodo para calcular quanto o aluno precisa tirar no 2° bimestre para passar na matéria
-        public void CalcularNotaParaSegundoBimestre()
+        public void CalcularNotaParaSegundoBimestreMenu()
         {
             decimal primeiraNota = ReadDecimal("Digite a primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
             decimal notaNecessaria = _notaServices.CalcularNota2Bimestre(primeiraNota);
@@ -506,7 +507,7 @@ namespace Calculadora_de_Notas_POO.Services
         }
 
         // Método para calcular quanto o aluno precisa tirar no exame final para passar na matéria
-        public void CalcularExameFinal()
+        public void CalcularExameFinalMenu()
         {
             decimal primeiraNota = ReadDecimal("Digite a primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
             decimal segundaNota = ReadDecimal("Digite a segunda nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
