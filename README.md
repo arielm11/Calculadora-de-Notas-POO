@@ -41,5 +41,5 @@ Será uma classe utilitária que irá conter os métodos necessários para calcu
 
 ### Métodos
 - ~~SaberNotaB2: Nesse metódo será calculado o quando o aluno precisa tirar na segunda nota para passar na matéria.~~
-- ExameFinal: Nesse método será calculado o quanto o aluno precisa tirar no exame final para passar na matéria.
+- ~~ExameFinal: Nesse método será calculado o quanto o aluno precisa tirar no exame final para passar na matéria.~~
 - Nedia: Nesse método será calculado a média das notas do aluno.
