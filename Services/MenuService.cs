@@ -94,9 +94,9 @@ namespace Calculadora_de_Notas_POO.Services
                 printMenuNotas();
                 Console.Write(ConsoleColors.Colorize("\nDigite o número da operação: ", ConsoleColors.Yellow));
                 string? input = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int operacaoNotas) || operacaoNotas < 1 || operacaoNotas > 7)
+                if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int operacaoNotas) || operacaoNotas < 1 || operacaoNotas > 8)
                 {
-                    Console.Write(ConsoleColors.Colorize("Entrada inválida. Por favor, insira um número entre 1 e 7.\n", ConsoleColors.Yellow));
+                    Console.Write(ConsoleColors.Colorize("Entrada inválida. Por favor, insira um número entre 1 e 8.\n", ConsoleColors.Yellow));
                     continue;
                 }
                 switch (operacaoNotas)
@@ -114,15 +114,19 @@ namespace Calculadora_de_Notas_POO.Services
                         EditarNotaMenu();
                         break;
                     case 4:
-                        Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o 2° Bimestre", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Deletar Notas", ConsoleColors.Green));
+                        DeletarNotaMenu();
                         break;
                     case 5:
-                        Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o Exame Final", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o 2° Bimestre", ConsoleColors.Green));
                         break;
                     case 6:
-                        Console.WriteLine(ConsoleColors.Colorize("Verificar Aprovação", ConsoleColors.Green));
+                        Console.WriteLine(ConsoleColors.Colorize("Calcular Nota para o Exame Final", ConsoleColors.Green));
                         break;
                     case 7:
+                        Console.WriteLine(ConsoleColors.Colorize("Verificar Aprovação", ConsoleColors.Green));
+                        break;
+                    case 8:
                         return; // Voltar ao Menu Principal
                 }
             }
@@ -169,10 +173,11 @@ namespace Calculadora_de_Notas_POO.Services
             Console.WriteLine("1 - Consultar Notas");
             Console.WriteLine("2 - Cadastrar Notas");
             Console.WriteLine("3 - Editar Notas");
-            Console.WriteLine("4 - Saber quanto precisa tirar no 2° Bimestre");
-            Console.WriteLine("5 - Saber quanto precisa tirar no Exame Final");
-            Console.WriteLine("6 - Ver se foi aprovado");
-            Console.WriteLine("7 - Voltar ao Menu Principal");
+            Console.WriteLine("4 - Deletar Notas");
+            Console.WriteLine("5 - Saber quanto precisa tirar no 2° Bimestre");
+            Console.WriteLine("6 - Saber quanto precisa tirar no Exame Final");
+            Console.WriteLine("7 - Ver se foi aprovado");
+            Console.WriteLine("8 - Voltar ao Menu Principal");
             Console.WriteLine(ConsoleColors.Colorize("\n" + new string('=', 60), ConsoleColors.Blue));
         }
 
@@ -408,11 +413,14 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.ReadKey();
                 return;
             }
+            
             foreach (var materia in materiasDisponiveis)
             {
                 Console.WriteLine($"ID: {materia.Id} | Nome: {materia.Nome} | Professor: {materia.Professor} | Periodo: {materia.Periodo}");
             }
+            
             int idMateria = ReadInt("Digite o ID da matéria que deseja deletar: ", "ID inválido");
+            
             if (!materiasDisponiveis.Any(m => m.Id == idMateria))
             {
                 Console.WriteLine(ConsoleColors.Colorize("ID de matéria não encontrado. Tente novamente.", ConsoleColors.Red));
@@ -420,7 +428,9 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.ReadKey();
                 return;
             }
+            
             bool sucesso = _materiaServices.ExcluirMateria(idMateria);
+            
             if (sucesso)
             {
                 Console.WriteLine(ConsoleColors.Colorize("Matéria deletada com sucesso!", ConsoleColors.Green));
@@ -429,6 +439,49 @@ namespace Calculadora_de_Notas_POO.Services
             {
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar matéria. Tente novamente", ConsoleColors.Red));
             }
+            
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        //Método para deletar uma nota cadastrada
+        public void DeletarNotaMenu()
+        { 
+            var notasDisponiveis = _notaServices.ListarNotas();
+            if (notasDisponiveis == null || notasDisponiveis.Count == 0)
+            { 
+                Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            foreach (var nota in notasDisponiveis)
+            {
+                Console.WriteLine($"ID: {nota.Id} | ID Matéria: {nota.IdMateria} | Primeira Nota: {nota.PrimeiraNota} | Segunda Nota: {nota.SegundaNota} | Nota Final: {nota.NotaFinal}");
+            }
+
+            int idNota = ReadInt("Digite o ID da nota que deseja deletar: ", "ID inválido");
+
+            if (!notasDisponiveis.Any(n => n.Id == idNota))
+            {
+                Console.WriteLine(ConsoleColors.Colorize("ID de nota não encontrado. Tente novamente.", ConsoleColors.Red));
+                Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar...", ConsoleColors.Yellow));
+                Console.ReadKey();
+                return;
+            }
+
+            bool sucesso = _notaServices.ExcluirNota(idNota);
+
+            if (sucesso)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nota deletada com sucesso!", ConsoleColors.Green));
+            }
+            else 
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar nota. Tente novamente", ConsoleColors.Red));
+            }
+
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }

@@ -120,5 +120,28 @@ namespace Calculadora_de_Notas_POO.Repositories
                 }
             }
         }
+
+        // Método para excluir uma nota existente no banco de dados
+        public bool DeletarNota(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Notas WHERE COD_NOTA = @Id";
+                using (var cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    try
+                    {
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

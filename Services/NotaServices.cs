@@ -80,5 +80,20 @@ namespace Calculadora_de_Notas_POO.Services
                 return _repository.EditarNota(notaAtualizada);
             }
         }
+
+        // Método para excluir uma nota existente
+        public bool ExcluirNota(int id)
+        {
+            var notaExistente = _repository.ListarNotas().FirstOrDefault(n => n.Id == id);
+            if (notaExistente == null)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Nota não encontrada.", ConsoleColors.Red));
+                return false;
+            }
+            else 
+            { 
+                return _repository.DeletarNota(id);
+            }
+        }
     }
 }
