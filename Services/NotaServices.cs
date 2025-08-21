@@ -13,8 +13,10 @@ namespace Calculadora_de_Notas_POO.Services
     public class NotaServices
     {
         private const decimal mediaParaAprovacao = 70;
+        private const decimal mediaAprovacaoExameFinal = 50;
         private const decimal pesoPrimeiraNota = 2;
         private const decimal pesoSegundaNota = 3;
+        private const decimal pesoBimestral = 3;
         private const decimal pesoExameFinal = 5;
 
         private readonly NotaRepository _repository;
@@ -111,6 +113,18 @@ namespace Calculadora_de_Notas_POO.Services
             decimal nota2Necessaria = (media - influenciaNota1) / pesoSegundaNota;
 
             return nota2Necessaria;
+        }
+
+        // Método para calcular quanto o aluno precisa tirar no exame final para passar na matéria
+        public decimal CalcularNotaExameFinal(decimal nota1, decimal nota2)
+        {
+            decimal mediaBimestral = CalcularMedia(nota1, nota2);
+            decimal parteDaMedia = mediaParaAprovacao * pesoExameFinal;
+            decimal influenciaNotaBimestral = mediaBimestral * pesoBimestral;
+            
+            decimal notaExameNecessaria = (parteDaMedia - influenciaNotaBimestral) / pesoExameFinal;
+            
+            return notaExameNecessaria;
         }
     }
 }
