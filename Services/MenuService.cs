@@ -127,7 +127,7 @@ namespace Calculadora_de_Notas_POO.Services
                         break;
                     case 7:
                         Console.WriteLine(ConsoleColors.Colorize("Verificar Aprovação", ConsoleColors.Green));
-                        CalcularMedia();
+                        CalcularMediaMenu();
                         break;
                     case 8:
                         return; // Voltar ao Menu Principal
@@ -347,7 +347,7 @@ namespace Calculadora_de_Notas_POO.Services
             {
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao editar matéria. Tente novamente", ConsoleColors.Red));
             }
-            
+
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }
@@ -384,7 +384,7 @@ namespace Calculadora_de_Notas_POO.Services
             decimal novaSegundaNota = ReadDecimal("Digite a nova segunda nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
             decimal novaMedia = _notaServices.CalcularMedia(novaPrimeiraNota, novaSegundaNota);
             decimal? novoExameFinal = null;
-            
+
             if (novaMedia < 70)
             {
                 Console.WriteLine(ConsoleColors.Colorize($"\nMédia do bimestre ({novaMedia:F2}) é menor que 70. É necessário cadastrar a nota do exame final.", ConsoleColors.Yellow));
@@ -416,14 +416,14 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.ReadKey();
                 return;
             }
-            
+
             foreach (var materia in materiasDisponiveis)
             {
                 Console.WriteLine($"ID: {materia.Id} | Nome: {materia.Nome} | Professor: {materia.Professor} | Periodo: {materia.Periodo}");
             }
-            
+
             int idMateria = ReadInt("Digite o ID da matéria que deseja deletar: ", "ID inválido");
-            
+
             if (!materiasDisponiveis.Any(m => m.Id == idMateria))
             {
                 Console.WriteLine(ConsoleColors.Colorize("ID de matéria não encontrado. Tente novamente.", ConsoleColors.Red));
@@ -431,9 +431,9 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.ReadKey();
                 return;
             }
-            
+
             bool sucesso = _materiaServices.ExcluirMateria(idMateria);
-            
+
             if (sucesso)
             {
                 Console.WriteLine(ConsoleColors.Colorize("Matéria deletada com sucesso!", ConsoleColors.Green));
@@ -442,17 +442,17 @@ namespace Calculadora_de_Notas_POO.Services
             {
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar matéria. Tente novamente", ConsoleColors.Red));
             }
-            
+
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
         }
 
         //Método para deletar uma nota cadastrada
         public void DeletarNotaMenu()
-        { 
+        {
             var notasDisponiveis = _notaServices.ListarNotas();
             if (notasDisponiveis == null || notasDisponiveis.Count == 0)
-            { 
+            {
                 Console.WriteLine(ConsoleColors.Colorize("Nenhuma nota cadastrada. Por favor, cadastre uma nota primeiro.", ConsoleColors.Red));
                 Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para voltar ao menu...", ConsoleColors.Yellow));
                 Console.ReadKey();
@@ -480,7 +480,7 @@ namespace Calculadora_de_Notas_POO.Services
             {
                 Console.WriteLine(ConsoleColors.Colorize("Nota deletada com sucesso!", ConsoleColors.Green));
             }
-            else 
+            else
             {
                 Console.WriteLine(ConsoleColors.Colorize("Erro ao deletar nota. Tente novamente", ConsoleColors.Red));
             }
@@ -519,6 +519,25 @@ namespace Calculadora_de_Notas_POO.Services
             else
             {
                 Console.WriteLine(ConsoleColors.Colorize($"Você precisa tirar pelo menos {notaNecessaria:F2} no exame final para passar na matéria.", ConsoleColors.Green));
+            }
+            Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
+            Console.ReadKey();
+        }
+
+        // Método para calcular a média e verificar se o aluno foi aprovado
+        public void CalcularMediaMenu()
+        {
+            decimal primeiraNota = ReadDecimal("Digite a primeira nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal segundaNota = ReadDecimal("Digite a segunda nota: ", "Nota inválida. Deve ser um número decimal positivo.", 0, 100);
+            decimal mediaBimestral = _notaServices.CalcularMedia(primeiraNota, segundaNota);
+            Console.WriteLine(ConsoleColors.Colorize($"\nMédia do bimestre: {mediaBimestral:F2}", ConsoleColors.Green));
+            if (mediaBimestral >= 70)
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Parabéns! Você foi aprovado no bimestre.", ConsoleColors.Green));
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColors.Colorize("Você não foi aprovado no bimestre. É necessário fazer o exame final.", ConsoleColors.Red));
             }
             Console.WriteLine(ConsoleColors.Colorize("Pressione qualquer tecla para continuar...", ConsoleColors.Yellow));
             Console.ReadKey();
