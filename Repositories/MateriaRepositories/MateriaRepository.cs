@@ -1,12 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Calculadora_de_Notas_POO.Models;
 using Calculadora_de_Notas_POO.Utils;
-using System;
-using System.Collections.Generic;
 
-namespace Calculadora_de_Notas_POO.Repositories
+namespace Calculadora_de_Notas_POO.Repositories.MateriaRepositories
 {
-    public class MateriaRepository
+    public class MateriaRepository : IMateriaRepository
     {
         private readonly string connectionString = "Server=.\\SQLEXPRESS;Database=MeuBancoTeste;Trusted_Connection=True;TrustServerCertificate=True";
 
