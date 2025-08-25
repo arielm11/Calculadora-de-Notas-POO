@@ -1,5 +1,5 @@
 ﻿using Calculadora_de_Notas_POO.Models;
-using Calculadora_de_Notas_POO.Repositories;
+using Calculadora_de_Notas_POO.Repositories.NotaRepositories;
 using Calculadora_de_Notas_POO.Utils;
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Calculadora_de_Notas_POO.Services
+namespace Calculadora_de_Notas_POO.Services.NotaServices
 {
 
-    public class NotaServices
+    public class NotaService : INotaServices
     {
         private const decimal mediaParaAprovacao = 70;
         private const decimal mediaAprovacaoExameFinal = 50;
@@ -19,10 +19,10 @@ namespace Calculadora_de_Notas_POO.Services
         private const decimal pesoBimestral = 3;
         private const decimal pesoExameFinal = 5;
 
-        private readonly NotaRepository _repository;
-        public NotaServices()
+        private readonly INotaRepository _repository;
+        public NotaService(INotaRepository repository)
         {
-            _repository = new NotaRepository();
+            _repository = repository;
         }
 
         // Método para listar todas as notas cadastradas

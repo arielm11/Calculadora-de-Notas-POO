@@ -3,18 +3,20 @@ using Calculadora_de_Notas_POO.Models;
 using Calculadora_de_Notas_POO.Repositories;
 using System;
 using Microsoft.Identity.Client;
+using Calculadora_de_Notas_POO.Services.MateriaServices;
+using Calculadora_de_Notas_POO.Services.NotaServices;
 
 namespace Calculadora_de_Notas_POO.Services
 {
     public class MenuService
     {
-        private readonly MateriaServices _materiaServices;
-        private readonly NotaServices _notaServices;
+        private readonly IMateriaServices _materiaServices;
+        private readonly INotaServices _notaServices;
 
-        public MenuService()
+        public MenuService(INotaServices notaService, IMateriaServices materiaService)
         {
-            _materiaServices = new MateriaServices();
-            _notaServices = new NotaServices();
+            _materiaServices = materiaService;
+            _notaServices = notaService;
         }
 
 
@@ -224,7 +226,7 @@ namespace Calculadora_de_Notas_POO.Services
                 Console.WriteLine(ConsoleColors.Colorize("Notas cadastradas:", ConsoleColors.Green));
                 foreach (var nota in notas)
                 {
-                    Console.WriteLine($"ID: {nota.Id}, ID Matéria: {nota.IdMateria}, Primeira Nota: {nota.PrimeiraNota}, Segunda Nota: {nota.SegundaNota}, Nota Final: {nota.NotaFinal}");
+                    Console.WriteLine($"ID: {nota.Id}, ID Matéria: {nota.IdMateria}, Primeira Nota: {nota.PrimeiraNota}, Segunda Nota: {nota.SegundaNota},Nota Exame Final: {nota.ExameFinal}, Nota Final: {nota.NotaFinal}");
                 }
             }
         }

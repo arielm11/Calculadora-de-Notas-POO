@@ -1,15 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Calculadora_de_Notas_POO.Models;
 using Calculadora_de_Notas_POO.Utils;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.Pkcs;
 
-namespace Calculadora_de_Notas_POO.Repositories
+namespace Calculadora_de_Notas_POO.Repositories.NotaRepositories
 {
-    public class NotaRepository
+    public class NotaRepository : INotaRepository
     {
         private readonly string connectionString = "Server=.\\SQLEXPRESS;Database=MeuBancoTeste;Trusted_Connection=True;TrustServerCertificate=True";
 
